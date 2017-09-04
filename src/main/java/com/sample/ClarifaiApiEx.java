@@ -57,39 +57,37 @@ public class ClarifaiApiEx {
 		System.out.println("Adding images into concept "+input);
 		
 	   
-	   // create a model
-	   ClarifaiResponse<ConceptModel> modelResponse = client.createModel("testModel")
-			        .withOutputInfo(ConceptOutputInfo.forConcepts(	        
-			            Concept.forID("cuTestconcept")
-			        ))
-			        .executeSync();
+	   	// create a model
+		ClarifaiResponse<ConceptModel> modelResponse = client.createModel("testModel")
+					.withOutputInfo(ConceptOutputInfo.forConcepts(	        
+					    Concept.forID("cuTestconcept")
+					))
+					.executeSync();
 	   
 	   
-	   String modelRes = modelResponse.rawBody();
-	   System.out.println("Creating model "+modelRes);
-	   
-	  
-	   // add a concept into model
-	   int modelConceptRes = client.modifyModel("testModel")
-			   		.withConcepts(Action.MERGE, Concept.forID("cuTestconcept"))
-			   		.executeSync().responseCode();
-	   
-	   System.out.println("Adding concept into model "+modelConceptRes);
+		   String modelRes = modelResponse.rawBody();
+		   System.out.println("Creating model "+modelRes);
+
+
+		   // add a concept into model
+		   int modelConceptRes = client.modifyModel("testModel")
+						.withConcepts(Action.MERGE, Concept.forID("cuTestconcept"))
+						.executeSync().responseCode();
+
+		   System.out.println("Adding concept into model "+modelConceptRes);
 	   
 	     
-	   // train a model 
-	   int trainResponse = client.trainModel("testModel").executeSync().responseCode();
-	   System.out.println("Training model "+trainResponse);
+	   	// train a model 
+	   	int trainResponse = client.trainModel("testModel").executeSync().responseCode();
+	   	System.out.println("Training model "+trainResponse);
 		
 	   
-	   // predict with custom added model 
-	   System.out.println("Prediction "+client.predict("testModel")
-        .withInputs(
-            ClarifaiInput.forImage(ClarifaiImage.of(image))
-        )
-        .executeSync().get());
-	   
-	   
+	   	// predict with custom added model 
+	   	System.out.println("Prediction "+client.predict("testModel")
+		.withInputs(
+		    ClarifaiInput.forImage(ClarifaiImage.of(image))
+		)
+		.executeSync().get());
 	}
 		
 	public static void main(String[] args) {
